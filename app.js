@@ -1,20 +1,33 @@
-
+// add UI components
 const form = document.querySelector ('#task-form');
 const taskList = document.querySelector ('.collection');
 const clearBtn = document.querySelector ('.clear-task');
 const filter = document.querySelector ('#filter');
 const taskInput = document.querySelector ('#task');
 
+// loading EventListeners
 loadEventListeners();
 
+// load all EventListeners
 function loadEventListeners () {
+
+  // Get Tasks from Local Storage when DOMContentl is loaded
   document.addEventListener('DOMContentLoaded', getTasks)
+
+  // Add Task to TaskList and LocalStorage
   form.addEventListener('submit', addTask);
+
+  // Remove Task from TaskList and LocalStorage
   taskList.addEventListener('click', removeTask);
+
+  // Remove all Tasks from TaskList and LocalStorage
   clearBtn.addEventListener('click', clearTasks);
+
+  // Filter Tasks by Input Task
   filter.addEventListener('keyup', filterTask);
 }
 
+// // Get Tasks from Local Storage
 function getTasks(){
   let tasks;
   if (localStorage.getItem('tasks') === null) {
@@ -39,6 +52,7 @@ function getTasks(){
   
 }
  
+// Add Task to TaskList and LocalStorage
 function addTask(e){
   if (taskInput.value === '') {
     alert('Add Task');
@@ -55,14 +69,17 @@ function addTask(e){
   li.appendChild(link);
 
   taskList.appendChild(li);
-
+  
+  // Store Task in Local Storage
   storeTaskInLocalStorage(taskInput.value);
 
+  // Clear Task Input
   taskInput.value = '';
 
   e.preventDefault();
 }
 
+// Store Task in Local Storage
 function storeTaskInLocalStorage(task){
   let tasks;
   if (localStorage.getItem('tasks') === null) {
@@ -75,16 +92,19 @@ function storeTaskInLocalStorage(task){
   localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
+// Remove Task from Task list
 function removeTask(e) {
   if ( e.target.parentElement.classList.contains('delete-item')) {
     if (confirm('Are You Sure?')){ 
       e.target.parentElement.parentElement.remove()
-
+      
+     // Remove Task from Local Storage
       removeFromLocalStorage(e.target.parentElement.parentElement)
     };
   };
 }
 
+// Remove Task from Local Storage
 function removeFromLocalStorage(taskItem) {
   let tasks;
   if (localStorage.getItem('tasks') === null) {
@@ -102,16 +122,19 @@ function removeFromLocalStorage(taskItem) {
   localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
+// Remove all Tasks from Task List
 function clearTasks() {
   if (confirm('You sure? All tasks will be deleted')){
   while (taskList.firstChild) {
     taskList.removeChild(taskList.firstChild)
   };
 
+  // Remove all Tasks from Local Storage
   localStorage.clear()
 }
 }
 
+// Filter Tasks 
 function filterTask(e){
   const text = e.target.value.toLowerCase();
   
