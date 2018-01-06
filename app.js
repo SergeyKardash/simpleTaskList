@@ -1,3 +1,5 @@
+document.body.style.backgroundColor = '#e8eaf6'
+
 // add UI components
 const form = document.querySelector ('#task-form');
 const taskList = document.querySelector ('.collection');
